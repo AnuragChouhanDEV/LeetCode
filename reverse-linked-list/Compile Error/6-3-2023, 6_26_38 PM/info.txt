@@ -1,1 +1,0 @@
-{"id":962973751,"lang":"cpp","lang_name":"C++","time":"6 days, 2 hours","timestamp":1685796998,"status":20,"status_display":"Compile Error","runtime":"N/A","url":"/submissions/detail/962973751/","is_pending":"Not Pending","title":"Reverse Linked List","memory":"N/A","code":null,"compare_result":null,"title_slug":"reverse-linked-list","has_notes":false}
