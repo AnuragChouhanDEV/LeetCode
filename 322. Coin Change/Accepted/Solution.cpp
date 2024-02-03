@@ -4,6 +4,30 @@ class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
+        vector<int> dp(amount+1,0); 
+        vector<int> cur(amount+1, 0);
+        for (int amt = 0; amt <= amount; ++amt) {
+            if (amt % coins[0] == 0)
+                dp[amt]=amt/coins[0];
+            else 
+                dp[amt]=1e9;
+        }
+        for (int idx = 1; idx < n; ++idx) {
+            for (int amt = 0; amt <= amount; ++amt) {
+                int not_to_pick = 0 + dp[amt];
+                int pick = INT_MAX;
+                if (coins[idx] <= amt) { 
+                    pick = 1 + cur[amt-coins[idx]];
+                }
+                cur[amt]=min(pick, not_to_pick);
+            }
+            dp=cur;
+        }
+        return dp[amount] >= 1e9 ? -1:dp[amount];
+    }
+#if 0
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
         vector<vector<int>> dp(n, vector<int>(amount+1, 0));
         for (int amt = 0; amt <= amount; ++amt) {
             if (amt % coins[0] == 0)
@@ -23,6 +47,7 @@ public:
         }
         return dp[n-1][amount] >= 1e9 ? -1:dp[n-1][amount];
     }
+#endif
 #if 0
     int helper(vector<int>& coins, int idx, int amount, vector<vector<int>> &dp) {
         if (idx == 0) {
