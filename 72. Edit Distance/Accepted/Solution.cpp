@@ -2,6 +2,36 @@
 
 class Solution {
 public:
+#if 1
+    int minDistance(string word1, string word2) { 
+    int m = word1.length();
+    int n = word2.length();
+
+    vector<int> dp(n + 1, 0);
+
+    for (int j = 1; j <= n; ++j) {
+        dp[j] = j;
+    }
+
+    for (int i = 1; i <= m; ++i) {
+        int prev = dp[0];
+        dp[0] = i;
+
+        for (int j = 1; j <= n; ++j) {
+            int temp = dp[j];
+            if (word1[i - 1] == word2[j - 1]) {
+                dp[j] = prev;
+            } else {
+                dp[j] = 1+min(dp[j - 1], min(dp[j], prev));
+            }
+            prev = temp;
+        }
+    }
+
+    return dp[n];
+}
+#endif
+#if 0
     int minDistance(string word1, string word2) {
         int n1 = word1.size();
         int n2 = word2.size();
@@ -21,6 +51,7 @@ public:
         }
         return dp[n1][n2];
     }
+#endif
 #if 0
     int helper(string word1, string word2, int l1, int l2, vector<vector<int>> &dp) {
         if (l1 < 0) return l2+1;
