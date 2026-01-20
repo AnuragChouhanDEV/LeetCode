@@ -1,0 +1,57 @@
+quick rivision
+
+1. Two pointers: one input, opposite ends
+
+Medium LeetCode problems using Two Pointers (opposite ends) technique start one pointer at index 0 (left) and another at the end of array/string (right), moving them inward based on conditions.
+
+Core Medium Problems
+Container With Most Water (11)
+Two pointers at ends, move shorter height inward to maximize area between bars.
+​
+
+Valid Palindrome II (680)
+Left=0, right=n-1, skip one mismatch and continue checking palindrome.
+​
+
+3Sum (15)
+Fix one pointer, use two pointers (left, right) on remaining sorted array for target sum=0.
+​
+
+Trapping Rain Water (42)
+Two pointers from opposite ends track left_max/right_max to calculate trapped water.
+​
+
+Two Sum II - Input Array Is Sorted (167)
+Left=0, right=n-1, move based on sum vs target (smaller→right++, larger→left++).
+​
+
+Additional Medium Problems
+LeetCode #	Problem Name	Pointer Movement Strategy
+125	Valid Palindrome	Skip non-alphanumeric, compare inward
+345	Reverse Vowels of a String	Skip non-vowels, swap vowels from ends
+151	Reverse Words in a String	Find word boundaries from ends
+76	Minimum Window Substring	Two pointers maintain valid window (expand/shrink from ends)
+438	Find All Anagrams	Sliding window with opposite-end validation
+Pattern Recognition Template
+cpp
+int left = 0, right = n-1;
+while(left < right) {
+    if(condition_to_move_left) left++;
+    else if(condition_to_move_right) right--;
+    else {
+        // both valid, move both or return result
+        left++; right--;
+    }
+}
+Key Decision Rules:
+​
+
+Sum too small → move left++ (need larger value)
+
+Sum too large → move right-- (need smaller value)
+
+Shorter boundary → move that pointer inward
+
+Valid solution found → move both inward
+
+Practice these 8-10 problems to master opposite-ends two pointers completely.
