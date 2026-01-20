@@ -55,3 +55,55 @@ Shorter boundary → move that pointer inward
 Valid solution found → move both inward
 
 Practice these 8-10 problems to master opposite-ends two pointers completely.
+
+
+2. Two pointers: two inputs, exhaust both
+
+Medium LeetCode problems using Two Pointers (two inputs, exhaust both) technique use pointers on two separate arrays/inputs, advancing both based on comparison until both are exhausted.
+
+Core Medium Problems
+Median of Two Sorted Arrays (4)
+Two pointers i on nums1, j on nums2. Partition both arrays to find median position.
+​
+
+Intersection of Two Arrays II (350)
+i on nums1, j on nums2. When equal, add to result and advance both pointers.
+​
+
+Interval List Intersections (986)
+i on firstList, j on secondList. Compare end times, advance pointer of earlier-ending interval.
+
+Additional Medium Problems
+LeetCode #	Problem Name	Two-Pointer Strategy
+350	Intersection of Two Arrays II	Match equal values, advance both
+986	Interval List Intersections	Compare interval ends, advance smaller
+4	Median of Two Sorted Arrays	Partition both arrays simultaneously
+253	Meeting Rooms II	Sort intervals, track active meetings
+56	Merge Intervals	Merge overlapping from two sorted lists
+Pattern Template
+cpp
+int i = 0, j = 0;  // i for first array, j for second
+while(i < nums1.size() && j < nums2.size()) {
+    if(nums1[i] < nums2[j]) {
+        i++;  // advance first array only
+    } else if(nums1[i] > nums2[j]) {
+        j++;  // advance second array only
+    } else {
+        // equal case - advance BOTH
+        result.push_back(nums1[i]);
+        i++; j++;
+    }
+}
+// Handle remaining elements if any
+Key Decision Rules
+Smaller value: Advance that array's pointer
+
+Equal values: Process match, advance both pointers
+
+Exhaust both arrays: Return result
+
+One array exhausted: Process remaining from other array
+
+Practice Priority: 4, 350, 986 - these capture 90% of the pattern.
+
+This differs from "opposite ends" (single array, left→right) by using separate pointers for separate inputs.
