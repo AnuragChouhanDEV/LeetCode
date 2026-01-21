@@ -173,3 +173,67 @@ Must-Do Priority (5 problems)
 239 - Sliding window max (deque)
 
 Master these 5 → 90% sliding window coverage. Variable size teaches expansion/contraction logic; fixed size teaches efficient sliding.
+
+4. Build a prefix sum
+
+Medium LeetCode problems using Prefix Sum technique precompute cumulative sums to answer range queries in O(1) time after O(n) preprocessing.
+
+Core Medium Problems
+Subarray Sum Equals K (560)
+Hashmap tracks prefix sum frequencies. prefix[j] - prefix[i-1] == k finds valid subarrays.
+​
+
+Continuous Subarray Sum (523)
+Check if any subarray sum divisible by k using prefix sums modulo k.
+
+Find Pivot Index (724)
+Prefix sums from left vs right to find balance point.
+
+Key Medium Problems
+LeetCode #	Problem Name	Prefix Sum Usage
+560	Subarray Sum Equals K	Hashmap of prefix frequencies
+523	Continuous Subarray Sum	Prefix % k collisions
+238	Product of Array Except Self	Prefix/suffix products
+152	Maximum Product Subarray	Prefix product tracking
+53	Maximum Subarray	Kadane (prefix variant)
+Prefix Sum Template
+cpp
+// 1. Build prefix array O(n)
+vector<long> prefix(n+1, 0);
+for(int i = 1; i <= n; i++) {
+    prefix[i] = prefix[i-1] + arr[i-1];
+}
+
+// 2. Range sum query O(1)
+int sum(int l, int r) {  // sum[0..r] - sum[0..l-1]
+    return prefix[r+1] - prefix[l];
+}
+Advanced Hashmap Prefix (560 Pattern)
+cpp
+unordered_map<long, int> prefixCount;
+prefixCount[0] = 1;  // empty prefix
+long sum = 0, result = 0;
+
+for(int num : nums) {
+    sum += num;
+    if(prefixCount.count(sum - k))
+        result += prefixCount[sum - k];
+    prefixCount[sum]++;
+}
+Decision Tree
+text
+Need range sums? → Basic prefix array
+Count subarrays with sum K? → Hashmap prefix
+Product except self? → Prefix + Suffix arrays  
+Max subarray sum? → Kadane (running prefix)
+Divisible by K? → Prefix % K
+Must-Do Priority (4 problems)
+560 - Hashmap prefix (hardest concept)
+
+238 - Prefix/suffix products
+
+523 - Modulo prefix
+
+152 - Max product prefix
+
+Master 560 → unlocks 80% prefix sum problems. Hashmap of prefix frequencies is the killer technique for subarray counting.
