@@ -237,3 +237,75 @@ Must-Do Priority (4 problems)
 152 - Max product prefix
 
 Master 560 → unlocks 80% prefix sum problems. Hashmap of prefix frequencies is the killer technique for subarray counting.
+
+5. Efficient string building
+
+Medium LeetCode problems requiring efficient string building use StringBuilder (Java) or StringBuffer/list + join (other languages) instead of string concatenation in loops to achieve O(n) time.
+
+Core Problems Needing StringBuilder
+Make The String Great (1544)
+Stack + StringBuilder: Remove adjacent case-differing pairs, build result efficiently.
+​
+​
+
+String Compression (443)
+In-place chars array + count tracking, write compressed form directly (StringBuilder alternative).
+
+Goal Parser Interpretation (1678)
+Parse "G()", "(al)", build result string character by character.
+​
+
+Key Medium Problems
+LeetCode #	Problem Name	Why StringBuilder Needed
+1544	Make The String Great	Stack simulation removes pairs iteratively
+443	String Compression	In-place write with counts
+1047	Remove All Adjacent Duplicates	Stack removes identical adjacent chars
+681	Next Closest Time	Generate 24 valid times, build strings
+131	Palindrome Partitioning	Backtracking builds partition lists
+Pattern: Stack + StringBuilder
+java
+public String makeGood(String s) {
+    StringBuilder sb = new StringBuilder();
+    for (char c : s.toCharArray()) {
+        if (sb.length() > 0 && 
+            Math.abs(sb.charAt(sb.length()-1) - c) == 32) {
+            sb.deleteCharAt(sb.length()-1);  // pop
+        } else {
+            sb.append(c);  // push
+        }
+    }
+    return sb.toString();
+}
+Python Equivalent (list + join)
+python
+def makeGood(s: str) -> str:
+    stack = []
+    for c in s:
+        if stack and abs(ord(stack[-1]) - ord(c)) == 32:
+            stack.pop()
+        else:
+            stack.append(c)
+    return ''.join(stack)
+When to Use Efficient Building
+❌ Avoid (O(n²)):
+
+java
+String result = "";
+for(char c : s) result += c;  // Quadratic!
+✅ Use (O(n)):
+
+java
+StringBuilder sb = new StringBuilder();
+for(char c : s) sb.append(c);
+String result = sb.toString();
+Must-Do Priority
+1544 - Stack + StringBuilder core pattern
+
+443 - In-place string mutation
+
+1047 - Adjacent duplicate removal
+
+1678 - Simple parsing to string
+
+Key Insight: Any iterative string modification (palindrome cleanup, compression, parsing) needs StringBuilder to pass time limits on large inputs.
+
