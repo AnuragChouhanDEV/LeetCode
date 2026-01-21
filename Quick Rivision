@@ -309,3 +309,77 @@ Must-Do Priority
 
 Key Insight: Any iterative string modification (palindrome cleanup, compression, parsing) needs StringBuilder to pass time limits on large inputs.
 
+6. Linked list: fast and slow pointer
+
+Medium LeetCode problems using Fast & Slow Pointers (Floyd's Tortoise and Hare) on linked lists detect cycles, find middles, and solve palindrome problems.
+
+Core Medium Problems
+Middle of the Linked List (876)
+Slow moves 1 step, fast moves 2 steps. When fast reaches end, slow is at middle.
+
+Linked List Cycle II (142)
+Fast/slow detect cycle. Reset slow to head, move both 1 step to find cycle start.
+
+Palindrome Linked List (234)
+Fast reaches end, slow at middle. Reverse second half, compare with first half.
+
+Key Medium Problems
+LeetCode #	Problem Name	Fast/Slow Usage
+876	Middle of the Linked List	Find middle in one pass
+142	Linked List Cycle II	Detect cycle + find entry point
+234	Palindrome Linked List	Reverse second half for comparison
+287	Find the Duplicate Number	Cycle detection in array
+202	Happy Number	Cycle detection via sum of squares
+Core Pattern Template
+cpp
+ListNode* slow = head, *fast = head;
+while(fast && fast->next) {
+    slow = slow->next;        // 1 step
+    fast = fast->next->next;  // 2 steps
+    // Check condition (middle, cycle, etc.)
+}
+Problem-Specific Variations
+1. Middle (876)
+cpp
+while(fast && fast->next) {
+    slow = slow->next;
+    fast = fast->next->next;
+}
+return slow;  // middle node
+2. Cycle Detection + Entry (142)
+cpp
+// Phase 1: Detect cycle
+while(fast && fast->next) {
+    slow = slow->next;
+    fast = fast->next->next;
+    if(slow == fast) break;  // cycle found
+}
+
+// Phase 2: Find entry
+slow = head;
+while(slow != fast) {
+    slow = slow->next;
+    fast = fast->next;
+}
+return slow;  // cycle start
+3. Palindrome (234)
+cpp
+// Find middle
+while(fast && fast->next) {
+    slow = slow->next;
+    fast = fast->next->next;
+}
+// Reverse second half from slow, compare
+Why It Works (Math)
+Middle Detection: Fast travels 2n, slow travels n. When fast finishes, slow is at n/2.
+
+Cycle Entry: Distance from head to cycle + cycle length = meeting point distance.
+
+Must-Do Priority (3 problems)
+876 - Basic middle finding
+
+142 - Complete cycle detection
+
+234 - Real-world application (palindrome)
+
+Master these 3 → 85% fast/slow coverage. The cycle detection math (Phase 2 reset) is the key insight.
