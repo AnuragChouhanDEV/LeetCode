@@ -107,3 +107,69 @@ One array exhausted: Process remaining from other array
 Practice Priority: 4, 350, 986 - these capture 90% of the pattern.
 
 This differs from "opposite ends" (single array, left→right) by using separate pointers for separate inputs.
+
+3. Sliding window
+
+Medium LeetCode problems using Sliding Window technique maintain a contiguous subarray/substring of variable or fixed size, expanding/shrinking based on conditions.
+
+Fixed Size Window (Medium)
+Longest Substring Without Repeating Characters (3)
+Maintain window, shrink from left when duplicate found.
+​
+
+Maximum Average Subarray I (643)
+Fixed size k, slide window computing sum/average.
+
+Maximum Sum of Subarray of Size K
+Fixed window size k, track max sum using prefix sum.
+
+Variable Size Window (Medium)
+LeetCode #	Problem Name	Window Logic
+3	Longest Substring Without Repeating Characters	Shrink on duplicate chars
+76	Minimum Window Substring	Expand until valid, shrink minimum
+438	Find All Anagrams in a String	Fixed char count, slide & check
+239	Sliding Window Maximum	Deque maintains max in window
+567	Permutation in String	Fixed permutation length
+Core Pattern Templates
+Fixed Size Window
+cpp
+int windowSum = 0, result = INT_MIN;
+for(int i = 0; i < k; i++) windowSum += arr[i];
+result = windowSum;
+
+for(int i = k; i < n; i++) {
+    windowSum += arr[i] - arr[i-k];  // slide window
+    result = max(result, windowSum);
+}
+Variable Size Window
+cpp
+int left = 0;
+for(int right = 0; right < n; right++) {
+    // add arr[right] to window
+    while(windowInvalid(left, right)) {
+        // remove arr[left] from window
+        left++;
+    }
+    // update result [left..right]
+}
+Decision Tree
+text
+Is window size FIXED? → Use prefix sum / running total
+    ↓ NO
+Does window need MIN/MAX length? → Variable size (two pointers)
+    ↓ NO  
+Fixed character count? → Hashmap + slide
+    ↓ NO
+Max in each window? → Deque (239)
+Must-Do Priority (5 problems)
+3 - Longest substring (character frequency)
+
+76 - Minimum window (covers all concepts)
+
+438 - Anagrams (fixed pattern)
+
+643 - Fixed size average
+
+239 - Sliding window max (deque)
+
+Master these 5 → 90% sliding window coverage. Variable size teaches expansion/contraction logic; fixed size teaches efficient sliding.
