@@ -1,0 +1,55 @@
+Implement software timers on top of single hwtiemr
+
+given :
+you are given api for 1 hardware timer
+void sethwtimer(mstimefromnow) -> to set hw timer time from now
+unsigned int gethwtimertime -> return time left for expiry
+requestcallback(mstimefromnow, callback) -> to register time for sw timer and register callback
+hwtimeexpired() -> callback function from hwtimer, gets called when hwtimer expired
+
+you need to implement multiple software timers on top of 1 single hardware timer
+
+solution :
+
+typedef struct {
+    unsigned int expiry_time;  // Absolute ms from reference (e.g., system_time + ms_from_now)
+    void (*callback)(void*);   // User callback
+    void* arg;                 // Callback arg
+    bool active;               // Active flag
+    unsigned int period;       // 0 for one-shot, else periodic
+} sw_timer_t;
+
+#define MAX_TIMERS 64
+sw_timer_t* heap[MAX_TIMERS]; int heap_size = 0;
+
+void insert_heap(sw_timer_t* t) { /* heapify up by expiry_time */ }
+sw_timer_t* pop_min() { /* heapify down */ }
+
+void hwtimeexpired() {
+    uint now = ++global_ticks;  // Or derive
+    while (heap_size && heap[0]->expiry_time <= now && heap[0]->active) {
+        sw_timer_t* t = pop_min();
+        t->active = false;
+        t->callback(t->arg);
+        if (t->period) {
+            t->expiry_time = now + t->period;
+            t->active = true;
+            insert_heap(t);
+        }
+    }
+    if (heap_size) {
+        unsigned int next = heap[0]->expiry_time - now;
+        sethwtimer(next > 0 ? next : 1);
+    }
+}
+
+int requestcallback(unsigned int ms, void(*cb)(void*), void* arg) {
+    if (heap_size >= MAX_TIMERS) return -1;
+    sw_timer_t* t = alloc_timer();  // User-managed or pool
+    t->expiry_time = global_ticks + ms;
+    t->callback = cb; t->arg = arg; t->active = true; t->period = 0;
+    insert_heap(t);
+    unsigned int left = gethwtimertime();
+    if (!left || t->expiry_time < global_ticks + left) sethwtimer(ms);
+    return 0;
+}
