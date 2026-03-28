@@ -1,0 +1,15 @@
+redis - caching
+CDN + blob storage - for images videos (amazon s3)
+text search engine - elastic search/ solr
+store matrix - time series data base (openTSdb)
+analytics on data - Hadoop
+structured data -
+	ACID - RDBMS (MySQL, oracle, sql server, 	posgres) invenntry management, payment
+non structured data -
+	++ data types
+	++ queries
+		document DB (mongoDB, couch base) 		for catalog like amazon ever increasing data + finite queries
+		columnar DB (cassendra, Hbase) for 		example uber/ola
+kafka 
+cassendra
+mongodb
